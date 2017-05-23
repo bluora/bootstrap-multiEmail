@@ -116,9 +116,17 @@ if (typeof jQuery === 'undefined') { throw new Error('MultiEmail\'s JavaScript r
 
 			} else {
 				// Invoke function on existing tags input
-				var retVal = multiEmail[arg1](arg2);
-				if (retVal !== undefined)
-					results.push(retVal);
+				if (arg1 !== undefined) {
+					var retVal = multiEmail[arg1](arg2);
+					if (retVal !== undefined)
+						results.push(retVal);
+				} else {
+					var input_value = multiEmail.$element.val();
+					multiEmail['removeAll']();
+					input_value.split(',').forEach(function(value) {
+						multiEmail['add'](value);
+					});
+				}
 			}
 		});
 
@@ -130,15 +138,13 @@ if (typeof jQuery === 'undefined') { throw new Error('MultiEmail\'s JavaScript r
 		}
 	};
 
-
-
 	/**
-   * Initialize tagsinput behaviour on inputs and selects which have
-   * data-role=tagsinput
-   */
-  $(function() {
-    $("input[data-role=multiemail], select[multiple][data-role=multiemail], textarea[data-role=multiemail]").multiEmail();
-  });
+	 * Initialize tagsinput behaviour on inputs and selects which have
+	 * data-role=tagsinput
+	 */
+	$(function() {
+		$("input[data-role=multiemail], select[multiple][data-role=multiemail], textarea[data-role=multiemail]").multiEmail();
+	});
 
 	
 })(window.jQuery);
